@@ -481,12 +481,14 @@ export function TrustCenterPreview({
               >
                 <div className="flex flex-1 items-center gap-3">
                   {vendor.logo ? (
-                    <div className="relative h-10 w-10 overflow-hidden rounded-lg border border-slate-100 bg-white dark:border-slate-700 dark:bg-slate-800">
+                    <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-slate-100 bg-white dark:border-slate-600">
                       <Image
                         src={vendor.logo}
                         alt={`${vendor.name} logo`}
                         fill
+                        sizes="40px"
                         className="object-contain p-1.5"
+                        unoptimized
                       />
                     </div>
                   ) : (
@@ -594,12 +596,14 @@ export function TrustCenterPreview({
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 {config.company.logo && (
-                  <div className="relative h-14 w-14 overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-600">
                     <Image
                       src={config.company.logo}
                       alt={`${config.company.name} logo`}
                       fill
-                      className="object-contain p-2"
+                      sizes="56px"
+                      className="object-contain p-1.5"
+                      unoptimized
                     />
                   </div>
                 )}
