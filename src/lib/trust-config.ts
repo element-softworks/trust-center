@@ -173,7 +173,7 @@ hero:
     - Encryption in transit (TLS 1.2+) and at rest across cloud services
     - Annual security awareness training for all staff
     - Daily/weekly/monthly backups with restore verification
-    - Member of the East Cyber Resilience Centre (UK police-led programme)
+    - Member of the Eastern Cyber Resilience Centre (UK police-led programme)
 compliance:
   - name: IASME Cyber Assurance
     status: Certified
@@ -385,7 +385,7 @@ faqs:
   - question: Who is accountable for security and data protection?
     answer: Luke Brown (CEO) is accountable at board level. Jack Kent (Lead Engineer) manages day-to-day information security and data protection and reports to Joe Methven (COO). We are not required to appoint a statutory DPO.
   - question: Are you part of any cyber resilience programmes?
-    answer: Yes. We are members of the East Cyber Resilience Centre, a UK police-led programme that helps regional businesses stay current on cyber threats and provides advice and support if an incident occurs.
+    answer: Yes. We are members of the Eastern Cyber Resilience Centre (https://www.ecrcentre.co.uk), a UK police-led programme that helps regional businesses stay current on cyber threats and provides advice and support if an incident occurs.
 subprocessors:
   - name: Google Workspace
     category: Identity and collaboration
