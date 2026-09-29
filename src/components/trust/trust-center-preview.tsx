@@ -296,7 +296,24 @@ export function TrustCenterPreview({
               Add documents via YAML to enable this list.
             </p>
           }
-          renderItem={(doc) => (
+          renderItem={(doc) => {
+          const accessLabel = doc.access === "request" ? "Request only" : "Public";
+          const redundantTags = new Set(
+            [
+              accessLabel,
+              doc.access,
+              doc.category,
+              // access already conveys visibility; drop mirror tags
+              ...(doc.access === "public"
+                ? ["public"]
+                : ["confidential", "request only"]),
+            ].map((value) => value.toLowerCase())
+          );
+          const tags = doc.tags.filter(
+            (tag) => !redundantTags.has(tag.toLowerCase())
+          );
+
+          return (
           <div
             key={doc.name}
             className="flex flex-col gap-4 rounded-xl border border-slate-100 bg-gradient-to-br from-white to-slate-50/70 p-4 dark:border-slate-700 dark:from-slate-900 dark:to-slate-800 md:flex-row md:items-center md:justify-between"
@@ -305,23 +322,25 @@ export function TrustCenterPreview({
               <div className="flex flex-wrap items-center gap-2">
                 <p className="font-semibold text-slate-900 dark:text-white">{doc.name}</p>
                 <Badge variant="outline">{doc.category}</Badge>
+                <Badge variant={doc.access === "request" ? "default" : "secondary"}>
+                  {accessLabel}
+                </Badge>
               </div>
               <p className="text-sm text-muted-foreground">{doc.description}</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                <Badge variant={doc.access === "request" ? "default" : "secondary"}>
-                  {doc.access === "request" ? "Request only" : "Public"}
-                </Badge>
-                {doc.tags.map((tag) => (
-                  <Badge key={tag} variant="outline">
-                    {tag}
-                  </Badge>
-                ))}
-                {doc.updatedAt && (
-                  <span className="text-xs text-muted-foreground">
-                    Updated on {doc.updatedAt}
-                  </span>
-                )}
-              </div>
+              {(tags.length > 0 || doc.updatedAt) && (
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  {tags.map((tag) => (
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
+                  ))}
+                  {doc.updatedAt && (
+                    <span className="text-xs text-muted-foreground">
+                      Updated on {doc.updatedAt}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
             <div className="flex items-center gap-3 md:flex-col">
               {doc.access === "request" ? (
@@ -341,7 +360,8 @@ export function TrustCenterPreview({
               )}
             </div>
           </div>
-          )}
+          );
+          }}
         />
       </CardContent>
     </Card>

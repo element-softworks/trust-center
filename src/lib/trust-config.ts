@@ -209,38 +209,29 @@ documents:
     category: Privacy
     access: public
     url: https://and-element.com/privacy-policy
-    tags:
-      - Public
     updatedAt: 2026-08-20
   - name: IASME Cyber Assurance certificate
     description: Certificate 6d21efe2-2f1e-4ea2-9e68-6f9333287a6a confirming IASME Cyber Assurance assessment success.
     category: Certifications
     access: public
     url: https://registry.blockmarktech.com/certificates/6d21efe2-2f1e-4ea2-9e68-6f9333287a6a/
-    tags:
-      - Public
     updatedAt: 2026-09-02
   - name: Cyber Essentials certificate
     description: Cyber Essentials / IASME Cyber Baseline certificate (569a5277-478b-4ae4-b972-6fcb674d19cd) covering Element Softworks Ltd.
     category: Certifications
     access: public
     url: https://registry.blockmarktech.com/certificates/569a5277-478b-4ae4-b972-6fcb674d19cd/
-    tags:
-      - Public
     updatedAt: 2026-09-02
   - name: Information security overview
     description: Summary of technical and organisational measures for prospects and security questionnaires.
     category: Overview
     access: request
-    tags:
-      - Confidential
     updatedAt: 2026-08-24
   - name: Business Continuity Plan
     description: BCP covering identity, edge access, client hosting, source control, finance, collaboration and endpoints with RTO/RPO and recovery playbooks.
     category: Continuity
     access: request
     tags:
-      - Confidential
       - NDA
     updatedAt: 2026-08-24
   - name: Information Security Risk Assessment
@@ -248,7 +239,6 @@ documents:
     category: Risk
     access: request
     tags:
-      - Confidential
       - NDA
     updatedAt: 2026-08-24
   - name: Data Processing Agreement
@@ -263,30 +253,22 @@ documents:
     category: Insurance
     access: public
     url: /documents/employers-liability-certificate-2026.pdf
-    tags:
-      - Public
     updatedAt: 2026-06-04
   - name: Professional Indemnity schedule
     description: Technology professional indemnity portfolio (P-POR-FL-0021826). £1,000,000 any one claim including defence costs; retroactive date 3 June 2020; period 4 June 2026 – 3 June 2027. Includes cyber and data protection law endorsement for IT trades.
     category: Insurance
     access: public
     url: /documents/professional-indemnity-schedule-2026.pdf
-    tags:
-      - Public
     updatedAt: 2026-06-04
   - name: Public & Products Liability confirmation
     description: Public and products liability — £2,000,000 any one event / period for products. Period 4 June 2026 – 3 June 2027.
     category: Insurance
     access: request
-    tags:
-      - Confidential
     updatedAt: 2026-06-04
   - name: Directors & Officers Liability confirmation
     description: Directors & Officers and Corporate Liability £1,000,000 any one claim. Period through March 2027.
     category: Insurance
     access: request
-    tags:
-      - Confidential
     updatedAt: 2026-06-08
 policies:
   - name: Information Security Policy (IS-01)

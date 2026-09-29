@@ -1,8 +1,7 @@
-import { createServerClient } from "@/lib/supabase";
+import { getDb } from "@/lib/d1";
 import { DEFAULT_TRUST_YAML } from "@/lib/trust-config";
 
 const CONFIG_ID = "default";
-const TABLE_NAME = "trust_configs";
 
 export type StoredTrustConfig = {
   yaml: string;
@@ -16,32 +15,28 @@ function defaultConfig(): StoredTrustConfig {
   };
 }
 
+type TrustConfigRow = {
+  yaml: string;
+  updated_at: string | null;
+};
+
 export async function getStoredTrustConfig(): Promise<StoredTrustConfig> {
   try {
-    const supabase = createServerClient();
-    const { data, error } = await supabase
-      .from(TABLE_NAME)
-      .select("yaml, updated_at")
-      .eq("id", CONFIG_ID)
-      .maybeSingle();
-
-    // PGRST116 = no rows; treat any other error as "use default" so the
-    // public trust center still renders when Supabase is unreachable.
-    if (error && error.code !== "PGRST116") {
-      console.warn(
-        "Trust config unavailable from Supabase; using default YAML.",
-        error.message || error
-      );
-      return defaultConfig();
-    }
+    const db = await getDb();
+    const row = await db
+      .prepare(
+        "SELECT yaml, updated_at FROM trust_configs WHERE id = ? LIMIT 1"
+      )
+      .bind(CONFIG_ID)
+      .first<TrustConfigRow>();
 
     return {
-      yaml: data?.yaml ?? DEFAULT_TRUST_YAML,
-      updatedAt: data?.updated_at ?? null,
+      yaml: row?.yaml ?? DEFAULT_TRUST_YAML,
+      updatedAt: row?.updated_at ?? null,
     };
   } catch (error) {
     console.warn(
-      "Trust config unavailable from Supabase; using default YAML.",
+      "Trust config unavailable from D1; using default YAML.",
       error instanceof Error ? error.message : error
     );
     return defaultConfig();
@@ -49,26 +44,22 @@ export async function getStoredTrustConfig(): Promise<StoredTrustConfig> {
 }
 
 export async function saveTrustConfig(yaml: string): Promise<StoredTrustConfig> {
-  const supabase = createServerClient();
-  const { data, error } = await supabase
-    .from(TABLE_NAME)
-    .upsert(
-      {
-        id: CONFIG_ID,
-        yaml,
-      },
-      { onConflict: "id" }
-    )
-    .select("yaml, updated_at")
-    .single();
+  const db = await getDb();
+  const updatedAt = new Date().toISOString();
 
-  if (error || !data) {
-    console.error("Failed to persist trust config:", error);
-    throw new Error("Unable to save trust center config.");
-  }
+  await db
+    .prepare(
+      `INSERT INTO trust_configs (id, yaml, updated_at)
+       VALUES (?, ?, ?)
+       ON CONFLICT(id) DO UPDATE SET
+         yaml = excluded.yaml,
+         updated_at = excluded.updated_at`
+    )
+    .bind(CONFIG_ID, yaml, updatedAt)
+    .run();
 
   return {
-    yaml: data.yaml,
-    updatedAt: data.updated_at ?? null,
+    yaml,
+    updatedAt,
   };
 }

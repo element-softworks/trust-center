@@ -70,7 +70,10 @@ export function BuilderPanel({
         body: JSON.stringify({ yaml: yamlValue }),
       });
 
-      const payload = await response.json().catch(() => null);
+      const payload = (await response.json().catch(() => null)) as {
+        error?: string;
+        data?: { yaml?: string; updatedAt?: string | null };
+      } | null;
 
       if (!response.ok) {
         throw new Error(payload?.error ?? "Unable to save trust center.");

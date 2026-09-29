@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { Metadata } from "next";
 import { TrustCenterPublic } from "@/components/trust/trust-center-public";
 import { DEFAULT_TRUST_YAML, safeParseTrustCenter } from "@/lib/trust-config";
@@ -6,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-async function loadTrustConfig() {
+const loadTrustConfig = cache(async () => {
   let yaml = DEFAULT_TRUST_YAML;
 
   try {
@@ -31,7 +32,7 @@ async function loadTrustConfig() {
   }
 
   return fallbackParsed.data;
-}
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = await loadTrustConfig();

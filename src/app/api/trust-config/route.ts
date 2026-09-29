@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   if (denied) return denied;
 
   try {
-    const payload = await request.json();
+    const payload = (await request.json()) as { yaml?: unknown };
     const yaml = typeof payload.yaml === "string" ? payload.yaml : "";
     if (!yaml.trim()) {
       return NextResponse.json(
