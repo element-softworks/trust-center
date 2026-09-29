@@ -25,16 +25,6 @@ export function TrustCenterPublic({ config }: Props) {
   return (
     <div className={cn(isDark && "dark")}>
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <div className={cn("flex flex-wrap items-center justify-between gap-3 rounded-3xl border px-6 py-5 shadow-sm",
-            isDark ? "border-slate-800 bg-slate-900 text-slate-100" : "border-slate-200 bg-white/80 text-slate-900"
-        )}>
-          <div>
-            <h1 className="text-3xl font-semibold">{config.company.name} Trust Center</h1>
-            <p className="text-sm text-muted-foreground">
-              Transparency about security, compliance, and infrastructure in one place.
-            </p>
-          </div>
-        </div>
         <TrustCenterPreview
           config={config}
           onRequestDocument={handleRequest}

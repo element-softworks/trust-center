@@ -32,6 +32,11 @@ contacts:              # optional object
 | `company.logo` | string | Absolute URL to an image shown next to the company name. |
 | `company.headquarters` | string | City/country. |
 | `company.trustLead` | string | Person/role responsible. |
+| `company.legalName` | string | Registered legal entity name. |
+| `company.companyNumber` | string | Companies House (or equivalent) number. |
+| `company.address` | string | Registered office address. |
+| `company.vatNumber` | string | VAT registration number. |
+| `company.icoNumber` | string | ICO / data-protection register number. |
 | `hero.statusMessage` | string | Broadcast message (e.g., audit status). |
 | `hero.lastUpdate` | string | Free-form date indicator. |
 | `hero.commitments` | string[] | Highlights such as “Quarterly pen-tests”. |

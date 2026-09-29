@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   BadgeCheck,
   BookOpen,
@@ -27,6 +27,45 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+const PREVIEW_LIMIT = 5;
+
+function ShowMoreList<T>({
+  items,
+  renderItem,
+  empty,
+  className,
+}: {
+  items: T[];
+  renderItem: (item: T, index: number) => ReactNode;
+  empty?: ReactNode;
+  className?: string;
+}) {
+  const [expanded, setExpanded] = useState(false);
+
+  if (items.length === 0) {
+    return empty ?? null;
+  }
+
+  const visible = expanded ? items : items.slice(0, PREVIEW_LIMIT);
+  const hiddenCount = items.length - PREVIEW_LIMIT;
+
+  return (
+    <div className={className}>
+      {visible.map(renderItem)}
+      {items.length > PREVIEW_LIMIT && (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="w-full text-slate-600 dark:text-slate-300"
+          onClick={() => setExpanded((value) => !value)}
+        >
+          {expanded ? "Show less" : `View more (${hiddenCount})`}
+        </Button>
+      )}
+    </div>
+  );
+}
 type Props = {
   config: TrustCenterConfig;
   onRequestDocument: (documentName: string) => void;
@@ -150,7 +189,7 @@ export function TrustCenterPreview({
     <Card className={sectionCard}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="text-base font-semibold text-slate-900 dark:text-white">
-          Certifications & compliance
+          Compliance frameworks
         </CardTitle>
         <BadgeCheck className="h-4 w-4 text-emerald-500" />
       </CardHeader>
@@ -191,35 +230,49 @@ export function TrustCenterPreview({
     "policies",
     hasPolicies,
     <Card className={sectionCard}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 gap-3">
         <CardTitle className="text-base font-semibold text-slate-900 dark:text-white">
           Policies & controls
         </CardTitle>
-        <Lock className="h-4 w-4 text-slate-500" />
+        <div className="flex items-center gap-2">
+          {policies.length > 0 && (
+            <Button
+              size="sm"
+              onClick={() => onRequestDocument("Information security & data protection policy set")}
+            >
+              Request access
+            </Button>
+          )}
+          <Lock className="h-4 w-4 text-slate-500" />
+        </div>
       </CardHeader>
-      <CardContent className="space-y-3">
-        {policies.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            List key policies in the YAML file to showcase them here.
-          </p>
-        )}
-        {policies.map((policy) => (
-          <div
-            key={policy.name}
-            className="rounded-lg border border-slate-100 p-3 dark:border-slate-700 dark:bg-slate-800/70"
-          >
-            <p className="font-medium text-slate-900 dark:text-white">{policy.name}</p>
-            <p className="text-xs text-muted-foreground">
-              {policy.owner ? `Owner: ${policy.owner} • ` : ""}
-              {policy.coverage ?? "Coverage not provided"}
+      <CardContent>
+        <ShowMoreList
+          className="space-y-3"
+          items={policies}
+          empty={
+            <p className="text-sm text-muted-foreground">
+              List key policies in the YAML file to showcase them here.
             </p>
-            {policy.cadence && (
+          }
+          renderItem={(policy) => (
+            <div
+              key={policy.name}
+              className="rounded-lg border border-slate-100 p-3 dark:border-slate-700 dark:bg-slate-800/70"
+            >
+              <p className="font-medium text-slate-900 dark:text-white">{policy.name}</p>
               <p className="text-xs text-muted-foreground">
-                Cadence: {policy.cadence}
+                {policy.owner ? `Owner: ${policy.owner} • ` : ""}
+                {policy.coverage ?? "Coverage not provided"}
               </p>
-            )}
-          </div>
-        ))}
+              {policy.cadence && (
+                <p className="text-xs text-muted-foreground">
+                  Cadence: {policy.cadence}
+                </p>
+              )}
+            </div>
+          )}
+        />
       </CardContent>
     </Card>
   );
@@ -234,13 +287,16 @@ export function TrustCenterPreview({
         </CardTitle>
         <FileText className="h-4 w-4 text-slate-500" />
       </CardHeader>
-      <CardContent className="space-y-4">
-        {documents.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            Add documents via YAML to enable this list.
-          </p>
-        )}
-        {documents.map((doc) => (
+      <CardContent>
+        <ShowMoreList
+          className="space-y-4"
+          items={documents}
+          empty={
+            <p className="text-sm text-muted-foreground">
+              Add documents via YAML to enable this list.
+            </p>
+          }
+          renderItem={(doc) => (
           <div
             key={doc.name}
             className="flex flex-col gap-4 rounded-xl border border-slate-100 bg-gradient-to-br from-white to-slate-50/70 p-4 dark:border-slate-700 dark:from-slate-900 dark:to-slate-800 md:flex-row md:items-center md:justify-between"
@@ -285,7 +341,8 @@ export function TrustCenterPreview({
               )}
             </div>
           </div>
-        ))}
+          )}
+        />
       </CardContent>
     </Card>
   );
@@ -633,6 +690,64 @@ export function TrustCenterPreview({
             <p className="max-w-3xl text-sm text-slate-700 dark:text-slate-200">
               {config.company.description}
             </p>
+            {(config.company.legalName ||
+              config.company.companyNumber ||
+              config.company.address ||
+              config.company.vatNumber ||
+              config.company.icoNumber) && (
+              <dl className="grid gap-3 rounded-lg border border-slate-100 bg-slate-50/80 p-4 text-sm dark:border-slate-700 dark:bg-slate-800/70 sm:grid-cols-2">
+                {config.company.legalName && (
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-muted-foreground dark:text-slate-400">
+                      Legal name
+                    </dt>
+                    <dd className="text-slate-800 dark:text-slate-100">
+                      {config.company.legalName}
+                    </dd>
+                  </div>
+                )}
+                {config.company.companyNumber && (
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-muted-foreground dark:text-slate-400">
+                      Company number
+                    </dt>
+                    <dd className="text-slate-800 dark:text-slate-100">
+                      {config.company.companyNumber}
+                    </dd>
+                  </div>
+                )}
+                {config.company.vatNumber && (
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-muted-foreground dark:text-slate-400">
+                      VAT number
+                    </dt>
+                    <dd className="text-slate-800 dark:text-slate-100">
+                      {config.company.vatNumber}
+                    </dd>
+                  </div>
+                )}
+                {config.company.icoNumber && (
+                  <div>
+                    <dt className="text-xs uppercase tracking-wide text-muted-foreground dark:text-slate-400">
+                      ICO registration
+                    </dt>
+                    <dd className="text-slate-800 dark:text-slate-100">
+                      {config.company.icoNumber}
+                    </dd>
+                  </div>
+                )}
+                {config.company.address && (
+                  <div className="sm:col-span-2">
+                    <dt className="text-xs uppercase tracking-wide text-muted-foreground dark:text-slate-400">
+                      Registered address
+                    </dt>
+                    <dd className="text-slate-800 dark:text-slate-100">
+                      {config.company.address}
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            )}
             {hero?.statusMessage && (
               <div className="flex items-center gap-2 rounded-md border border-emerald-200 bg-emerald-50/80 px-3 py-2 text-sm text-emerald-800 dark:border-emerald-500/50 dark:bg-emerald-500/10 dark:text-emerald-200">
                 <ShieldCheck className="h-4 w-4" />

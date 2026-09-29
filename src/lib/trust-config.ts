@@ -82,6 +82,11 @@ export const trustCenterSchema = z.object({
     logo: z.string().optional(),
     headquarters: z.string().optional(),
     trustLead: z.string().optional(),
+    legalName: z.string().optional(),
+    companyNumber: z.string().optional(),
+    address: z.string().optional(),
+    vatNumber: z.string().optional(),
+    icoNumber: z.string().optional(),
   }),
   hero: z
     .object({
@@ -149,27 +154,26 @@ export type TrustCenterConfig = z.infer<typeof trustCenterSchema>;
 export const DEFAULT_TRUST_YAML = `theme: light
 company:
   name: "&Element"
-  tagline: Interactive digital experiences for retail and brand environments
-  description: Element Softworks Ltd (trading as &Element) designs, builds and hosts interactive in-store and brand experiences. Our trust program covers UK GDPR, Cyber Essentials and IASME Cyber Assurance across our people, devices and cloud platforms.
+  tagline: Software design, development and digital delivery
+  description: Element Softworks Ltd (trading as &Element) designs and builds software products and digital services for organisations of all sizes. Our trust program covers UK GDPR, Cyber Essentials and IASME Cyber Assurance across our people, devices and cloud platforms.
   website: https://and-element.com
   logo: https://and-element.com/assets/icon-192.png
   headquarters: Colchester, Essex, United Kingdom
   trustLead: Jack Kent, Lead Engineer (day-to-day); Luke Brown, CEO (accountable)
+  legalName: Element Softworks Ltd
+  companyNumber: "09486419"
+  address: Innovation Centre, Knowledge Gateway, Boundary Road, Colchester, Essex, CO4 3ZQ, United Kingdom
+  vatNumber: GB279997505
+  icoNumber: ZA532756
 hero:
-  statusMessage: IASME Cyber Assurance certified (September 2026). Cyber Essentials prerequisite held.
+  statusMessage: Certified to IASME Cyber Assurance and Cyber Essentials (September 2026).
   lastUpdate: 2026-09-24
   commitments:
     - Least-privilege access via SSO and Zero Trust controls
     - Encryption in transit (TLS 1.2+) and at rest across cloud services
     - Annual security awareness training for all staff
     - Daily/weekly/monthly backups with restore verification
-metrics:
-  - label: Policy set
-    value: 30+
-    caption: Information security and data protection policies
-  - label: Open risks tracked
-    value: "20"
-    caption: Live information-security risk register
+    - Member of the East Cyber Resilience Centre (UK police-led programme)
 compliance:
   - name: IASME Cyber Assurance
     status: Certified
@@ -184,7 +188,7 @@ compliance:
     scope: Controller for Element business data; processor for client-hosted applications
   - name: ISO 27001
     status: Aligned
-    scope: ISMS and control framework mapped to ISO 27001:2022 (not certified)
+    scope: Controls and ISMS practices mapped to ISO 27001:2022. We are not ISO 27001 certified; this reflects voluntary alignment, not an accredited audit.
 infrastructure:
   hosting: Google Cloud Platform, AWS and Railway for application hosting; Cloudflare for DNS, CDN and Zero Trust access; Google Workspace for identity and collaboration
   dataResidency:
@@ -363,19 +367,6 @@ policies:
     cadence: Reviewed annually or on material processing change
 monitoring:
   incidentHistory: []
-updates:
-  - date: 2026-09-02
-    title: IASME Cyber Assurance certified
-    summary: Element Softworks Ltd passed IASME Cyber Assurance assessment (certificate 6d21efe2-2f1e-4ea2-9e68-6f9333287a6a).
-  - date: 2026-08-24
-    title: Risk assessment and BCP refreshed
-    summary: Information-security risk assessment and Business Continuity Plan reviewed; DPIA screening completed for current processing.
-  - date: 2026-08-20
-    title: Privacy notice updated
-    summary: Privacy notice republished at and-element.com/privacy-policy; next scheduled review 20 August 2027.
-  - date: 2026-08-14
-    title: Core policy set published
-    summary: Organisation-wide information security and data protection policies issued and assigned for annual review.
 contacts:
   email: compliance@and-element.com
   sla: Trust and security enquiries within 1 business day; data-subject requests within one month
@@ -393,6 +384,8 @@ faqs:
     answer: No. Where sites we build use Stripe Checkout, card details are entered on Stripe’s hosted page and are not transmitted to or stored in our systems. The client owns the merchant account.
   - question: Who is accountable for security and data protection?
     answer: Luke Brown (CEO) is accountable at board level. Jack Kent (Lead Engineer) manages day-to-day information security and data protection and reports to Joe Methven (COO). We are not required to appoint a statutory DPO.
+  - question: Are you part of any cyber resilience programmes?
+    answer: Yes. We are members of the East Cyber Resilience Centre, a UK police-led programme that helps regional businesses stay current on cyber threats and provides advice and support if an incident occurs.
 subprocessors:
   - name: Google Workspace
     category: Identity and collaboration

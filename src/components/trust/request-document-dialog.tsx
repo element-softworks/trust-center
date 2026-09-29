@@ -84,9 +84,9 @@ export function RequestDocumentDialog({
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <Label className="text-xs uppercase tracking-wide text-muted-foreground">
-              Document
+              Requesting
             </Label>
-            <p className="font-medium">{documentName ?? "Select a document"}</p>
+            <p className="font-medium">{documentName ?? "Select an item"}</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Your work email</Label>
@@ -106,7 +106,7 @@ export function RequestDocumentDialog({
             <Textarea
               id="message"
               rows={3}
-              placeholder="Tell us why you need access to this document."
+              placeholder="Tell us why you need access."
               value={message}
               onChange={(event) => setMessage(event.target.value)}
               maxLength={500}
@@ -122,7 +122,7 @@ export function RequestDocumentDialog({
               Cancel
             </Button>
             <Button type="submit" disabled={disabled}>
-              {isSubmitting ? "Sending..." : "Request document"}
+              {isSubmitting ? "Sending..." : "Submit request"}
             </Button>
           </div>
         </form>
