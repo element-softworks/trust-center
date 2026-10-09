@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { addRequest, listRequests } from "@/lib/request-store";
 import { requireAdminApi } from "@/lib/require-admin";
+import { notifyAdminsOfDocumentRequest } from "@/lib/notify-admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -28,6 +29,7 @@ export async function POST(request: Request) {
     const payload = await request.json();
     const data = requestSchema.parse(payload);
     const created = await addRequest(data);
+    await notifyAdminsOfDocumentRequest(created);
     return NextResponse.json({ data: created }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
