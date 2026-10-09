@@ -439,6 +439,31 @@ subprocessors:
     location: United States
     logo: https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/anthropic.svg
     description: Model inference where used in product or internal tooling under processor terms.
+  - name: Resend
+    category: Transactional email
+    location: United States
+    logo: https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/resend.svg
+    description: Transactional email delivery. Stored account and message data remains in the United States.
+  - name: Balena
+    category: Device fleet management
+    location: United Kingdom / United States / EEA
+    logo: https://www.vectorlogo.zone/logos/balenaio/balenaio-icon.svg
+    description: Fleet management and remote updates for connected devices via balenaCloud.
+  - name: CodeRabbit
+    category: AI code review
+    location: United States
+    logo: https://cdn.jsdelivr.net/npm/simple-icons@16.34.0/icons/coderabbit.svg
+    description: AI review of pull requests and source changes.
+  - name: Ultralytics
+    category: Computer vision
+    location: United States / EEA / Asia-Pacific
+    logo: https://cdn.jsdelivr.net/npm/simple-icons@16.34.0/icons/ultralytics.svg
+    description: Computer vision model training and deployment on the Ultralytics Platform.
+  - name: Simbase
+    category: IoT connectivity
+    location: United States / EEA / Australia
+    logo: https://simbase.com/apple-icon.png
+    description: Cellular connectivity and SIM management for connected devices.
 `;
 
 export type SafeParseResult =
